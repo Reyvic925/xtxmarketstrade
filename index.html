@@ -1,25 +1,1356 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta charset="utf-8">
-		<title>SAPUI5 Walkthrough</title>
-		<script
-			id="sap-ui-bootstrap"
-			src="/resources/sap-ui-core.js"
-			data-sap-ui-theme="sap_bluecrystal"
-			data-sap-ui-modules="sap.m.library"
-			data-sap-ui-compatVersion="edge"
-			data-sap-ui-preload="async" >
-		</script>
-		<script>
-			sap.ui.getCore().attachInit(function () {
-				new sap.m.Text({
-					text : "OpenUI5 is loaded successfully!"
-				}).placeAt("content");
-			});
-		</script>
-	</head>
-	<body class="sapUiBody" id="content">
-	</body>
-</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="bg-gradient-to-r from-yellow-400 via-yellow-600 to-yellow-400 bg-clip-text text-transparent">LuxYield | Premium Crypto Investments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            scroll-behavior: smooth;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #ffffff, #e5e5e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-card {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(30, 30, 30, 0.7);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffffff, #c5c5c5);
+            border-radius: 3px;
+            animation: progress 2s ease-in-out forwards;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: var(--progress); }
+        }
+
+        .plan-card:hover .plan-btn {
+            background: white;
+            color: black;
+        }
+
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width .3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .asset-chart {
+            height: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        .portfolio-bar {
+            width: 8px;
+            min-height: 4px;
+            background: linear-gradient(to top, #f59e0b, #ef4444);
+            border-radius: 4px;
+            margin: 0 2px;
+            display: inline-block;
+            position: relative;
+            bottom: 0;
+            transition: height 0.5s ease;
+        }
+
+        .chart-grid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            transform: translateX(-50%);
+        }
+
+        .transaction-type {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .deposit {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+        }
+
+        .withdrawal {
+            background: rgba(248, 113, 113, 0.15);
+            color: #f87171;
+        }
+
+        .investment {
+            background: rgba(96, 165, 250, 0.15);
+            color: #60a5fa;
+        }
+
+        .reward {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+            max-width: 320px;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dashboard-nav-item {
+            position: relative;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dashboard-nav-item.active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .dashboard-nav-item:not(.active):hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .dashboard-nav-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #f59e0b, #ec4899);
+            transition: width 0.3s ease;
+        }
+
+        .dashboard-nav-item.active::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+    <div id="notification" class="notification glass-card rounded-xl p-4 flex items-start">
+        <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+        <div>
+            <p class="font-medium" id="notification-text">Successfully connected wallet</p>
+            <p class="text-sm text-gray-400" id="notification-subtext">Your wallet has been connected successfully</p>
+        </div>
+        <button class="ml-4 text-gray-500 hover:text-white" id="close-notification">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div id="cursor" class="fixed w-6 h-6 rounded-full pointer-events-none bg-white bg-opacity-20 border border-white transform -translate-x-1/2 -translate-y-1/2 mix-blend-difference z-50 transition-transform duration-100" style="display: none;"></div>
+
+    <nav class="fixed w-full z-40 bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center">
+                        <span class="bg-gradient-to-r from-yellow-400 via-yellow-600 to-yellow-400 bg-clip-text text-transparent text-2xl font-bold tracking-wider">LUX<span class="text-white">YIELD</span></span>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-gray-300 text-sm uppercase tracking-wider">Home</a>
+                    <a href="#plans" class="nav-link text-white hover:text-gray-300 text-sm uppercase tracking-wider">Plans</a>
+                    <a href="#buy" class="nav-link text-white hover:text-gray-300 text-sm uppercase tracking-wider">Buy Crypto</a>
+                    <a href="#dashboard" class="nav-link text-white hover:text-gray-300 text-sm uppercase tracking-wider">Dashboard</a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" id="login-btn" class="text-white hover:text-gray-300 px-4 py-2 rounded-md text-sm font-medium">Login</a>
+                    <a href="#" id="register-btn" class="bg-white text-black hover:bg-gray-200 px-6 py-2 rounded-md text-sm font-medium transition duration-200">Register</a>
+                    <a href="#" id="profile-btn" style="display: none;" class="text-white hover:text-gray-300 px-4 py-2 rounded-md text-sm font-medium">Profile</a>
+                    <a href="#" id="logout-btn" style="display: none;" class="text-white hover:text-gray-300 px-4 py-2 rounded-md text-sm font-medium">Logout</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button type="button" id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden hidden pb-4 px-4 bg-black bg-opacity-95 backdrop-blur-md">
+            <div class="flex flex-col space-y-2">
+                <a href="#home" class="text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                <a href="#plans" class="text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium">Plans</a>
+                <a href="#buy" class="text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium">Buy Crypto</a>
+                <a href="#dashboard" class="text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                <div class="pt-2 border-t border-gray-800">
+                    <a href="#" id="mobile-login-btn" class="block w-full text-center text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                    <a href="#" id="mobile-register-btn" class="block w-full text-center bg-white text-black hover:bg-gray-200 px-3 py-2 rounded-md text-sm font-medium mt-2">Register</a>
+                    <a href="#" id="mobile-profile-btn" style="display: none;" class="block w-full text-center text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium mt-2">Profile</a>
+                    <a href="#" id="mobile-logout-btn" style="display: none;" class="block w-full text-center text-white hover:bg-gray-900 px-3 py-2 rounded-md text-sm font-medium mt-2">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-black via-transparent to-transparent z-10"></div>
+            <div class="absolute inset-0 opacity-30 bg-grid-white-05 bg-[length:25px_25px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                        <span class="gradient-text">Premium</span> Crypto <br>
+                        <span class="gradient-text">Investment</span> Platform
+                    </h1>
+                    <p class="text-gray-300 text-lg mb-8 max-w-xl">
+                        LuxYield offers institutional-grade cryptocurrency investment strategies with secure, high-yield returns for private investors.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#plans" class="bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            View Plans <i class="fas fa-chevron-right ml-2 text-sm"></i>
+                        </a>
+                        <a href="#" class="border border-white text-white hover:bg-white hover:text-black px-8 py-3 rounded-md text-sm font-medium transition duration-200 flex items-center">
+                            <i class="fab fa-ethereum mr-2"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 min-h-[400px] flex items-center justify-center">
+                    <div class="text-center relative">
+                        <div class="w-48 h-48 bg-white bg-opacity-5 rounded-full mx-auto flex items-center justify-center">
+                            <div class="w-36 h-36 bg-white bg-opacity-10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line text-white text-5xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-6 grid grid-cols-3 gap-4 opacity-80">
+                            <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                                <span class="block text-xs text-gray-300">Investors</span>
+                                <span class="block text-xl font-medium gradient-text">13K+</span>
+                            </div>
+                            <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                                <span class="block text-xs text-gray-300">Investors</span>
+                                <span class="block text-xl font-medium gradient-text">13K+</span>
+                            </div>
+                            <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                                <span class="block text-xs text-gray-300">Assets</span>
+                                <span id="home-assets-value" class="block text-xl font-medium gradient-text">$1.7M+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-xl p-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl font-bold mb-2 gradient-text">$1.7M+</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Total Deposits</div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl font-bold mb-2 gradient-text">$8.3M+</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Total Withdrawn</div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl font-bold mb-2 gradient-text">13K+</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Active Users</div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="text-4xl font-bold mb-2 gradient-text">24/7</div>
+                        <div class="text-gray-400 text-sm uppercase tracking-wider">Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="plans" class="py-16 relative">
+        <div class="absolute inset-x-0 top-0 h-32">
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent z-20"></div>
+            <div class="absolute inset-0 bg-grid-white-05 opacity-20"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Investment <span class="gradient-text">Plans</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Choose from our institutional-grade investment strategies managed by our team of experts.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="plan-card glass-card rounded-xl p-6 border border-gray-800 transition duration-300 transform hover:scale-105">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Basic Plan</h3>
+                            <p class="text-gray-400 text-sm">Weekly compounding • High-yield pools</p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 px-3 py-1 rounded-full text-sm font-medium">Entry Level</div>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="flex items-end mb-1">
+                            <span class="text-4xl font-bold gradient-text mr-2">350%</span>
+                            <span class="text-gray-400">in 6 days</span>
+                        </div>
+                        <div class="text-gray-400 text-sm mb-4">$500 - $2,499</div>
+
+                        <div class="progress-bar my-4">
+                            <div class="progress-fill" style="--progress: 72%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>72% slots filled</span>
+                            <span>28% available</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 mb-6">
+                        <h4 class="text-sm uppercase tracking-wider mb-3 text-gray-400">Features</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Access to high-yield liquidity pools</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Weekly compounded returns</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Daily profit withdrawals</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="plan-btn block text-center border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 mt-6">Invest Now</a>
+                </div>
+
+                <div class="plan-card glass-card rounded-xl p-6 border border-gray-800 transition duration-300 transform hover:scale-105">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Standard Plan</h3>
+                            <p class="text-gray-400 text-sm">Weekly compounding • Diversified DeFi</p>
+                        </div>
+                        <div class="bg-white bg-opacity-10 px-3 py-1 rounded-full text-sm font-medium">Popular</div>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="flex items-end mb-1">
+                            <span class="text-4xl font-bold gradient-text mr-2">450%</span>
+                            <span class="text-gray-400">in 8 days</span>
+                        </div>
+                        <div class="text-gray-400 text-sm mb-4">$2,500 - $4,999</div>
+
+                        <div class="progress-bar my-4">
+                            <div class="progress-fill" style="--progress: 88%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>88% slots filled</span>
+                            <span>12% available</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 mb-6">
+                        <h4 class="text-sm uppercase tracking-wider mb-3 text-gray-400">Features</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Diversified DeFi portfolio</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Higher yield access</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Priority support</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="plan-btn block text-center border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 mt-6">Invest Now</a>
+                </div>
+
+                <div class="plan-card glass-card rounded-xl p-6 border border-gray-800 transition duration-300 transform hover:scale-105">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Premium Plan</h3>
+                            <p class="text-gray-400 text-sm">Compounding • Exclusive farms</p>
+                        </div>
+                        <div class="bg-red-400 bg-opacity-20 text-red-400 px-3 py-1 rounded-full text-sm font-medium">Hot</div>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="flex items-end mb-1">
+                            <span class="text-4xl font-bold gradient-text mr-2">550%</span>
+                            <span class="text-gray-400">in 10 days</span>
+                        </div>
+                        <div class="text-gray-400 text-sm mb-4">$5,000 - $9,999</div>
+
+                        <div class="progress-bar my-4">
+                            <div class="progress-fill" style="--progress: 65%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>65% slots filled</span>
+                            <span>35% available</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 mb-6">
+                        <h4 class="text-sm uppercase tracking-wider mb-3 text-gray-400">Features</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Exclusive farming opportunities</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Enhanced yield strategies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">VIP support</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="plan-btn block text-center border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 mt-6">Invest Now</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                <div class="plan-card glass-card rounded-xl p-6 border border-gray-800 transition duration-300 transform hover:scale-105">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Elite Plan</h3>
+                            <p class="text-gray-400 text-sm">Market strategy • Premium pools</p>
+                        </div>
+                        <div class="bg-purple-400 bg-opacity-20 text-purple-400 px-3 py-1 rounded-full text-sm font-medium">Exclusive</div>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="flex items-end mb-1">
+                            <span class="text-4xl font-bold gradient-text mr-2">650%</span>
+                            <span class="text-gray-400">in 11 days</span>
+                        </div>
+                        <div class="text-gray-400 text-sm mb-4">$10,000 - $24,999</div>
+
+                        <div class="progress-bar my-4">
+                            <div class="progress-fill" style="--progress: 52%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>52% slots filled</span>
+                            <span>48% available</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 mb-6">
+                        <h4 class="text-sm uppercase tracking-wider mb-3 text-gray-400">Features</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Adaptive market strategy</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Premium liquidity pool access</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Dedicated account manager</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="plan-btn block text-center border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 mt-6">Invest Now</a>
+                </div>
+
+                <div class="plan-card glass-card rounded-xl p-6 border border-gray-800 transition duration-300 transform hover:scale-105">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Custom Plan</h3>
+                            <p class="text-gray-400 text-sm">Tailored portfolio • Managed by experts</p>
+                        </div>
+                        <div class="bg-yellow-400 bg-opacity-20 text-yellow-400 px-3 py-1 rounded-full text-sm font-medium">VIP</div>
+                    </div>
+
+                    <div class="my-6">
+                        <div class="flex items-end mb-1">
+                            <span class="text-4xl font-bold gradient-text mr-2">800%+</span>
+                            <span class="text-gray-400">in 14 days</span>
+                        </div>
+                        <div class="text-gray-400 text-sm mb-4">$25,000+</div>
+
+                        <div class="progress-bar my-4">
+                            <div class="progress-fill" style="--progress: 40%;"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-400">
+                            <span>40% slots filled</span>
+                            <span>60% available</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 mb-6">
+                        <h4 class="text-sm uppercase tracking-wider mb-3 text-gray-400">Features</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Customized investment strategies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Dedicated senior account manager</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2 text-xs"></i>
+                                <span class="text-gray-300">Direct access to DeFi experts</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="plan-btn block text-center border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 mt-6">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="buy" class="py-16 relative">
+        <div class="absolute inset-0 bg-grid-white-05 opacity-20 z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Buy <span class="gradient-text">Cryptocurrency</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Select your country to find the most used and trusted platforms to buy crypto and complete KYC.</p>
+            </div>
+
+            <div class="glass-card rounded-xl p-8 max-w-xl mx-auto">
+                <div class="mb-8">
+                    <label for="country-select" class="block text-gray-400 text-sm font-medium mb-2">Select Your Country</label>
+                    <select id="country-select" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:border-white transition-all">
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div id="recommended-platforms-section" class="hidden">
+                    <h3 class="text-xl font-bold mb-4 text-center">Recommended Platforms for <span id="selected-country-display" class="gradient-text"></span></h3>
+                    <div id="platform-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Platforms will be dynamically inserted here -->
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-lg font-bold mb-2">KYC Document Upload</h4>
+                        <p class="text-gray-400 mb-4">Upload your identification documents for verification (Admin-controlled).</p>
+                        <input type="file" id="kyc-upload" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-2 px-4 mb-4 focus:outline-none focus:border-white">
+                        <button id="kyc-submit" class="w-full bg-white text-black hover:bg-gray-200 py-3 rounded-lg">Submit for Verification</button>
+                    </div>
+                </div>
+
+                <div id="no-platforms-message" class="hidden text-center text-gray-400 mt-6">
+                    <p>No specific recommendations for this country yet. Please choose another or try a global platform.</p>
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Global Platforms:</h4>
+                        <div id="global-platform-list" class="grid grid-cols-1 gap-4">
+                            <!-- Global platforms will be inserted here if country not found -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4"><span class="gradient-text">Investment</span> Dashboard</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Track your portfolio performance and manage your investments</p>
+            </div>
+
+            <div class="glass-card rounded-xl overflow-hidden">
+                <div class="p-6 border-b border-gray-800 flex overflow-x-auto">
+                    <div class="flex space-x-4">
+                        <div class="dashboard-nav-item active" data-tab="overview">
+                            <i class="fas fa-chart-pie mr-2"></i>Overview
+                        </div>
+                        <div class="dashboard-nav-item" data-tab="investments">
+                            <i class="fas fa-coins mr-2"></i>Investments
+                        </div>
+                        <div class="dashboard-nav-item" data-tab="transactions">
+                            <i class="fas fa-exchange-alt mr-2"></i>Transactions
+                        </div>
+                        <div class="dashboard-nav-item" data-tab="rewards">
+                            <i class="fas fa-gift mr-2"></i>Rewards
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <div id="overview-content" class="dashboard-content active">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="glass-card rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-6">Portfolio Value</h3>
+                                <div class="flex items-end mb-2">
+                                    <span class="text-4xl font-bold gradient-text" id="dashboard-portfolio-value">$0.00</span>
+                                    <span class="ml-2 text-green-500 text-sm flex items-center" id="dashboard-portfolio-change-percent">
+                                        <i class="fas fa-arrow-up mr-1"></i>0%
+                                    </span>
+                                </div>
+                                <p class="text-gray-400 text-sm" id="dashboard-portfolio-change-amount">$0.00 this week</p>
+                                <div class="mt-8">
+                                    <div class="asset-chart">
+                                        <div class="chart-grid" id="portfolio-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-card rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-6">Asset Allocation</h3>
+                                <div class="grid grid-cols-2 gap-4 mb-6" id="dashboard-asset-allocation-grid">
+                                    <div class="bg-gray-900 bg-opacity-50 rounded-lg p-4">
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-8 h-8 bg-blue-500 rounded-lg mr-3 flex items-center justify-center">
+                                                <i class="fab fa-ethereum text-white"></i>
+                                            </div>
+                                            <span>Ethereum</span>
+                                        </div>
+                                        <div class="text-2xl font-bold">$8,245.50</div>
+                                        <div class="text-sm text-gray-400">33.6% of portfolio</div>
+                                    </div>
+                                    <div class="bg-gray-900 bg-opacity-50 rounded-lg p-4">
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-8 h-8 bg-yellow-500 rounded-lg mr-3 flex items-center justify-center">
+                                                <i class="fab fa-bitcoin text-white"></i>
+                                            </div>
+                                            <span>Bitcoin</span>
+                                        </div>
+                                        <div class="text-2xl font-bold">$7,150.20</div>
+                                        <div class="text-sm text-gray-400">29.2% of portfolio</div>
+                                    </div>
+                                    <div class="bg-gray-900 bg-opacity-50 rounded-lg p-4">
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-8 h-8 bg-purple-500 rounded-lg mr-3 flex items-center justify-center">
+                                                <i class="fas fa-dollar-sign text-white"></i>
+                                            </div>
+                                            <span>Stablecoins</span>
+                                        </div>
+                                        <div class="text-2xl font-bold">$5,350.85</div>
+                                        <div class="text-sm text-gray-400">21.8% of portfolio</div>
+                                    </div>
+                                    <div class="bg-gray-900 bg-opacity-50 rounded-lg p-4">
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-8 h-8 bg-pink-500 rounded-lg mr-3 flex items-center justify-center">
+                                                <i class="fab fa-solana text-white"></i>
+                                            </div>
+                                            <span>Altcoins</span>
+                                        </div>
+                                        <div class="text-2xl font-bold">$3,754.20</div>
+                                        <div class="text-sm text-gray-400">15.4% of portfolio</div>
+                                    </div>
+                                </div>
+                                <button class="w-full border border-gray-700 py-3 rounded-lg text-gray-400 hover:bg-gray-900 hover:text-white transition">
+                                    + Add Assets
+                                </button>
+                            </div>
+
+                            <div class="glass-card rounded-xl p-6">
+                                <h3 class="text-xl font-bold mb-6">Performance</h3>
+                                <div class="mb-8">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-gray-400">Today</span>
+                                        <span class="text-green-500" id="performance-today-text">+2.1%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="performance-today-bar" style="--progress: 40%;"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-8">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-gray-400">This Week</span>
+                                        <span class="text-green-500" id="performance-thisweek-text">+5.2%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="performance-thisweek-bar" style="--progress: 70%;"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-8">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-gray-400">This Month</span>
+                                        <span class="text-red-500" id="performance-thismonth-text">-1.8%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="performance-thismonth-bar" style="--progress: 20%; background: linear-gradient(90deg, #ef4444, #f59e0b);"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="text-gray-400">All Time</span>
+                                        <span class="text-green-500" id="performance-alltime-text">+34.7%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="performance-alltime-bar" style="--progress: 85%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-xl p-6 mt-8">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold">Recent Transactions</h3>
+                                <a href="#" class="text-gray-400 hover:text-white flex items-center text-sm">
+                                    View All <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                </a>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-gray-400 text-left text-sm">
+                                            <th class="pb-3 font-medium">Transaction</th>
+                                            <th class="pb-3 font-medium">Date</th>
+                                            <th class="pb-3 font-medium">Amount</th>
+                                            <th class="pb-3 font-medium">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-transactions-table-body">
+                                        <!-- Transactions will be dynamically inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="investments-content" class="dashboard-content hidden">
+                        <p class="text-gray-400">Manage your active and past investments here.</p>
+                        <div class="glass-card rounded-xl p-6 mt-6">
+                            <h3 class="text-xl font-bold mb-4">Your Active Plans</h3>
+                            <ul class="space-y-4">
+                                <li class="flex justify-between items-center bg-gray-900 bg-opacity-50 p-4 rounded-lg">
+                                    <div>
+                                        <div class="font-medium">Standard Plan</div>
+                                        <div class="text-sm text-gray-400">Invested: $3,000 USDT | Next payout: 2 days</div>
+                                    </div>
+                                    <span class="text-green-400 font-medium">+4.2%</span>
+                                </li>
+                                <li class="flex justify-between items-center bg-gray-900 bg-opacity-50 p-4 rounded-lg">
+                                    <div>
+                                        <div class="font-medium">Basic Plan</div>
+                                        <div class="text-sm text-gray-400">Invested: $1,500 ETH | Next payout: 4 days</div>
+                                    </div>
+                                    <span class="text-green-400 font-medium">+3.8%</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="transactions-content" class="dashboard-content hidden">
+                        <p class="text-gray-400">View your complete transaction history.</p>
+                        <div class="glass-card rounded-xl p-6 mt-6">
+                            <h3 class="text-xl font-bold mb-4">Full Transaction History</h3>
+                            <p class="text-gray-500">Detailed transaction history would be loaded here.</p>
+                        </div>
+                    </div>
+                    <div id="rewards-content" class="dashboard-content hidden">
+                        <p class="text-gray-400">Check your earned rewards and bonuses.</p>
+                        <div class="glass-card rounded-xl p-6 mt-6">
+                            <h3 class="text-xl font-bold mb-4">Your Earned Rewards</h3>
+                            <ul class="space-y-4">
+                                <li class="flex justify-between items-center bg-gray-900 bg-opacity-50 p-4 rounded-lg">
+                                    <div>
+                                        <div class="font-medium">Referral Bonus</div>
+                                        <div class="text-sm text-gray-400">Earned: May 20, 2024</div>
+                                    </div>
+                                    <span class="text-yellow-400 font-medium">+$50 USDT</span>
+                                </li>
+                                <li class="flex justify-between items-center bg-gray-900 bg-opacity-50 p-4 rounded-lg">
+                                    <div>
+                                        <div class="font-medium">First Deposit Bonus</div>
+                                        <div class="text-sm text-gray-400">Earned: April 10, 2024</div>
+                                    </div>
+                                    <span class="text-yellow-400 font-medium">+$25 BTC</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 relative">
+        <div class="absolute inset-0 bg-grid-white-05 opacity-10 z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4"><span class="gradient-text">Frequently</span> Asked Questions</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Find answers to common questions about LuxYield and cryptocurrency investments.</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-item glass-card rounded-xl p-6 mb-4 border border-gray-800 transition-all duration-200">
+                    <button class="faq-question w-full flex justify-between items-center text-left">
+                        <span class="font-medium">How do I start investing with LuxYield?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-300">
+                        <p>Starting your investment journey with LuxYield is simple. First, create an account on our platform. Then, deposit funds using one of our supported cryptocurrencies. Once your account is funded, select an investment plan that suits your goals and budget, then start earning returns immediately.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-xl p-6 mb-4 border border-gray-800 transition-all duration-200">
+                    <button class="faq-question w-full flex justify-between items-center text-left">
+                        <span class="font-medium">What cryptocurrencies do you accept for investments?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-300">
+                        <p>LuxYield currently accepts Bitcoin (BTC), Ethereum (ETH), Tether (USDT), USD Coin (USDC), Binance USD (BUSD), and Solana (SOL) for deposits and investments. We may add support for additional cryptocurrencies in the future.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-xl p-6 mb-4 border border-gray-800 transition-all duration-200">
+                    <button class="faq-question w-full flex justify-between items-center text-left">
+                        <span class="font-medium">How are my investments secured?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-300">
+                        <p>LuxYield employs a multi-layered security approach including cold storage for the majority of funds, two-factor authentication (2FA), and regular security audits. Our investment strategies are designed with risk management protocols to protect your capital.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-xl p-6 mb-4 border border-gray-800 transition-all duration-200">
+                    <button class="faq-question w-full flex justify-between items-center text-left">
+                        <span class="font-medium">What are the withdrawal fees and limits?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-300">
+                        <p>Withdrawal fees vary depending on the cryptocurrency and network conditions. A small network fee may apply. Minimum withdrawal limits are in place to ensure efficient transaction processing. Please refer to our detailed fee schedule in your dashboard for precise figures.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item glass-card rounded-xl p-6 mb-4 border border-gray-800 transition-all duration-200">
+                    <button class="faq-question w-full flex justify-between items-center text-left">
+                        <span class="font-medium">Can I cancel my investment plan early?</span>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform duration-200"></i>
+                    </button>
+                    <div class="faq-answer hidden mt-4 text-gray-300">
+                        <p>Our investment plans are structured for specific durations to maximize compounding returns. Early withdrawal may be possible but could be subject to certain conditions or a penalty fee. We encourage users to carefully review the terms of each plan before investing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="gradient-text">LUX</span><span class="text-white">YIELD</span>
+                    </h3>
+                    <p class="text-gray-400 text-sm mb-4">
+                        Institutional-grade cryptocurrency investment strategies with secure, high-yield returns.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-300 uppercase text-sm font-bold mb-4">Platform</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Investment Plans</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Buy Crypto</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Dashboard</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-300 uppercase text-sm font-bold mb-4">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Whitepaper</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-gray-300 uppercase text-sm font-bold mb-4">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Risk Disclosure</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">AML Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 pb-4">
+                <p class="text-gray-500 text-sm text-center">
+                    © 2023 LuxYield. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const profileBtn = document.getElementById('profile-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const mobileLoginBtn = document.getElementById('mobile-login-btn');
+            const mobileRegisterBtn = document.getElementById('mobile-register-btn');
+            const mobileProfileBtn = document.getElementById('mobile-profile-btn');
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const notification = document.getElementById('notification');
+            const closeNotification = document.getElementById('close-notification');
+            let token = localStorage.getItem('token');
+
+            // Mobile Menu Toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Notification System
+            function showNotification(message, subtext = 'Action completed successfully') {
+                document.getElementById('notification-text').textContent = message;
+                document.getElementById('notification-subtext').textContent = subtext;
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), 4000);
+            }
+            closeNotification.addEventListener('click', () => notification.classList.remove('show'));
+
+            // Authentication Modals
+            let modal = null;
+            function showModal(type) {
+                if (modal) modal.remove();
+                modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                modal.innerHTML = `
+                    <div class="glass-card rounded-xl p-6 w-full max-w-md">
+                        <h2 class="text-2xl font-bold mb-4">${type === 'login' ? 'Login' : 'Register'}</h2>
+                        ${type === 'register' ? `
+                            <input type="text" id="modal-name" placeholder="Full Name" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 mb-4 focus:outline-none focus:border-white">
+                            <input type="text" id="modal-username" placeholder="Username" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 mb-4 focus:outline-none focus:border-white">
+                        ` : ''}
+                        <input type="email" id="modal-email" placeholder="Email" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 mb-4 focus:outline-none focus:border-white">
+                        <input type="password" id="modal-password" placeholder="Password" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 mb-4 focus:outline-none focus:border-white">
+                        ${type === 'register' ? '<input type="text" id="modal-referral" placeholder="Referral Code (optional)" class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg py-3 px-4 mb-4 focus:outline-none focus:border-white">' : ''}
+                        <button id="modal-submit" class="w-full bg-white text-black hover:bg-gray-200 py-3 rounded-lg mb-2">Submit</button>
+                        <button id="modal-close" class="w-full text-gray-400 hover:text-white py-3 rounded-lg">Close</button>
+                        <p id="modal-error" class="text-red-400 mt-2"></p>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+                document.getElementById('modal-submit').addEventListener('click', () => {
+                    const name = type === 'register' ? document.getElementById('modal-name').value : '';
+                    const username = type === 'register' ? document.getElementById('modal-username').value : '';
+                    const email = document.getElementById('modal-email').value;
+                    const password = document.getElementById('modal-password').value;
+                    const referralCode = type === 'register' ? document.getElementById('modal-referral').value : '';
+
+                    fetch(`http://localhost:5000/api/auth/${type}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, username, email, password, referralCode })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.token) {
+                            token = data.token;
+                            localStorage.setItem('token', token);
+                            modal.remove();
+                            showNotification(`${type === 'login' ? 'Logged in' : 'Registered'} successfully`);
+                            updateUI();
+                        } else {
+                            document.getElementById('modal-error').textContent = data.message || 'Request failed';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+
+                document.getElementById('modal-close').addEventListener('click', () => modal.remove());
+            }
+
+            loginBtn.addEventListener('click', (e) => { e.preventDefault(); showModal('login'); });
+            registerBtn.addEventListener('click', (e) => { e.preventDefault(); showModal('register'); });
+            mobileLoginBtn.addEventListener('click', (e) => { e.preventDefault(); showModal('login'); });
+            mobileRegisterBtn.addEventListener('click', (e) => { e.preventDefault(); showModal('register'); });
+
+            // Update UI based on authentication
+            function updateUI() {
+                if (token) {
+                    loginBtn.style.display = 'none';
+                    registerBtn.style.display = 'none';
+                    profileBtn.style.display = 'inline';
+                    logoutBtn.style.display = 'inline';
+                    mobileLoginBtn.style.display = 'none';
+                    mobileRegisterBtn.style.display = 'none';
+                    mobileProfileBtn.style.display = 'block';
+                    mobileLogoutBtn.style.display = 'block';
+                    loadDashboard();
+                } else {
+                    loginBtn.style.display = 'inline';
+                    registerBtn.style.display = 'inline';
+                    profileBtn.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                    mobileLoginBtn.style.display = 'block';
+                    mobileRegisterBtn.style.display = 'block';
+                    mobileProfileBtn.style.display = 'none';
+                    mobileLogoutBtn.style.display = 'none';
+                }
+            }
+
+            profileBtn.addEventListener('click', () => loadDashboard());
+            logoutBtn.addEventListener('click', () => {
+                token = null;
+                localStorage.removeItem('token');
+                updateUI();
+                showNotification('Logged out successfully');
+            });
+            mobileProfileBtn.addEventListener('click', () => loadDashboard());
+            mobileLogoutBtn.addEventListener('click', () => {
+                token = null;
+                localStorage.removeItem('token');
+                updateUI();
+                showNotification('Logged out successfully');
+            });
+
+            // Dashboard Loading
+            function loadDashboard() {
+                if (!token) return;
+                fetch('http://localhost:5000/api/user/profile', {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user) {
+                        document.getElementById('dashboard-portfolio-value').textContent = `$${data.user.portfolioValue.toFixed(2)}`;
+                        // Add more dynamic updates as needed
+                    } else {
+                        console.error('Profile load failed:', data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            // Dashboard Tab Switching
+            const dashboardNavItems = document.querySelectorAll('.dashboard-nav-item');
+            const dashboardContents = document.querySelectorAll('.dashboard-content');
+            dashboardNavItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    dashboardNavItems.forEach(i => i.classList.remove('active'));
+                    dashboardContents.forEach(c => c.classList.add('hidden'));
+                    item.classList.add('active');
+                    document.getElementById(`${item.dataset.tab}-content`).classList.remove('hidden');
+                });
+            });
+
+            // Buy Crypto Country Selection with KYC
+            const countrySelect = document.getElementById('country-select');
+            const countries = ['Australia', 'Austria', 'Brazil', 'Canada', 'El Salvador', 'Estonia', 'France', 'Georgia', 'Germany', 'Ghana', 'India', 'Indonesia', 'Italy', 'Japan', 'Kenya', 'Malta', 'Mauritius', 'Netherlands', 'New Zealand', 'Nigeria', 'Philippines', 'Portugal', 'Singapore', 'South Africa', 'South Korea', 'Spain', 'Sweden', 'Switzerland', 'Thailand', 'Uganda', 'United Arab Emirates', 'United Kingdom', 'United States', 'Zimbabwe', 'Bhutan'];
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.toLowerCase().replace(/ /g, '-');
+                option.textContent = country;
+                countrySelect.appendChild(option);
+            });
+
+            const platforms = {
+                'australia': [
+                    { name: 'Independent Reserve', url: 'https://www.independentreserve.com', desc: 'ASX-regulated, AUD support' },
+                    { name: 'Swyftx', url: 'https://www.swyftx.com.au', desc: 'AUSTRAC-registered, local compliance' }
+                ],
+                'austria': [
+                    { name: 'Bitpanda', url: 'https://www.bitpanda.com', desc: 'Austrian origin, EU-licensed' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Euro-based deposits, popular in AT' }
+                ],
+                'brazil': [
+                    { name: 'Mercado Bitcoin', url: 'https://www.mercadobitcoin.com.br', desc: 'Brazilian leading exchange, BRL support' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'BRL trading and P2P services' }
+                ],
+                'canada': [
+                    { name: 'Bitbuy', url: 'https://www.bitbuy.ca', desc: 'Canadian-licensed, supports CAD' },
+                    { name: 'Newton', url: 'https://www.newton.co', desc: 'Local fiat deposits via Interac, easy-to-use' }
+                ],
+                'el-salvador': [
+                    { name: 'Bakkt', url: 'https://www.bakkt.com', desc: 'USD/BTC trading in legal-tender market' },
+                    { name: 'Bitfinex', url: 'https://www.bitfinex.com', desc: 'Active OTC/liquidity services post-Bitcoin adoption' }
+                ],
+                'estonia': [
+                    { name: 'Bitpanda', url: 'https://www.bitpanda.com', desc: 'EU-licensed, serves Baltics' },
+                    { name: 'Kraken', url: 'https://www.kraken.com', desc: 'Licensed in Estonia, supports EFT deposits' }
+                ],
+                'france': [
+                    { name: 'Coinhouse', url: 'https://www.coinhouse.com', desc: 'Paris-based, licensed by AMF' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Euro via SEPA, widely adopted' }
+                ],
+                'georgia': [
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Active since energy-favorable environment' },
+                    { name: 'OKX', url: 'https://www.okx.com', desc: 'Offers fiat gateways and crypto trading' }
+                ],
+                'germany': [
+                    { name: 'Bitpanda', url: 'https://www.bitpanda.com', desc: 'EU-regulated (MiCA), strong in DACH region' },
+                    { name: 'Kraken', url: 'https://www.kraken.com', desc: 'Compliant with BaFin, widely used in Germany' }
+                ],
+                'ghana': [
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'P2P and spot for GHS' },
+                    { name: 'Paxful', url: 'https://www.paxful.com', desc: 'Trusted P2P platform' }
+                ],
+                'india': [
+                    { name: 'WazirX', url: 'https://www.wazirx.com', desc: 'Binance-owned, INR support' },
+                    { name: 'CoinDCX', url: 'https://www.coindcx.com', desc: 'Local fiat P2P, regulatory compliance' }
+                ],
+                'indonesia': [
+                    { name: 'Tokocrypto', url: 'https://www.tokocrypto.com', desc: 'Bappebti-licensed, IDR deposits' },
+                    { name: 'Indodax', url: 'https://www.indodax.com', desc: 'Leading IDR exchange' }
+                ],
+                'italy': [
+                    { name: 'Conio', url: 'https://www.conio.com', desc: 'Italian-regulated wallet/exchange' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'SEPA fiat support' }
+                ],
+                'japan': [
+                    { name: 'Bitflyer', url: 'https://www.bitflyer.jp', desc: 'FSA-approved' },
+                    { name: 'Coincheck', url: 'https://www.coincheck.com', desc: 'FSA-licensed consumer exchange' }
+                ],
+                'kenya': [
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Popular spot/P2P' },
+                    { name: 'Paxful', url: 'https://www.paxful.com', desc: 'Widely used P2P' }
+                ],
+                'malta': [
+                    { name: 'OKX', url: 'https://www.okx.com', desc: 'MiCA-compliant, headquartered in Malta' },
+                    { name: 'Crypto.com', url: 'https://www.crypto.com', desc: 'EU/UK-registered, active Maltese operations' }
+                ],
+                'mauritius': [
+                    { name: 'Luno', url: 'https://www.luno.com', desc: 'Regional support, MUR' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Accessible via regional access' }
+                ],
+                'netherlands': [
+                    { name: 'Bitonic', url: 'https://www.bitonic.nl', desc: 'Dutch exchange, local bank integration' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'SEPA-supported' }
+                ],
+                'new-zealand': [
+                    { name: 'Easy Crypto', url: 'https://www.easycrypto.nz', desc: 'NZ-based, NZD support' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Spot/P2P accessible in NZ' }
+                ],
+                'nigeria': [
+                    { name: 'KuCoin', url: 'https://www.kucoin.com', desc: 'Popular due to Binance restrictions' },
+                    { name: 'Yellow Card', url: 'https://www.yellowcard.io', desc: 'African-focused, NGN deposits' }
+                ],
+                'philippines': [
+                    { name: 'Coins.ph', url: 'https://www.coins.ph', desc: 'BSP-registered, mobile wallet' },
+                    { name: 'PDAX', url: 'https://www.pdax.ph', desc: 'SEC-regulated, PHP support' }
+                ],
+                'portugal': [
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'Euro-based trading' },
+                    { name: 'Bitstamp', url: 'https://www.bitstamp.net', desc: 'EU-wide license, SEPA transactions' }
+                ],
+                'singapore': [
+                    { name: 'Crypto.com', url: 'https://www.crypto.com', desc: 'MAS-licensed, SGD support' },
+                    { name: 'Coinhako', url: 'https://www.coinhako.com', desc: 'SGD fiat access' }
+                ],
+                'south-africa': [
+                    { name: 'VALR', url: 'https://www.valr.com', desc: 'FSCA-registered, ZAR trading' },
+                    { name: 'Luno', url: 'https://www.luno.com', desc: 'Popular local exchange' }
+                ],
+                'south-korea': [
+                    { name: 'Upbit', url: 'https://www.upbit.com', desc: '~70% local market share' },
+                    { name: 'Bithumb', url: 'https://www.bithumb.com', desc: 'Established and secure' }
+                ],
+                'spain': [
+                    { name: 'Bit2Me', url: 'https://www.bit2me.com', desc: 'Spanish-licensed, fiat conversion' },
+                    { name: 'Kraken', url: 'https://www.kraken.com', desc: 'EUR-ES support' }
+                ],
+                'sweden': [
+                    { name: 'Safello', url: 'https://www.safello.com', desc: 'Stockholm-based, bank integration' },
+                    { name: 'Binance', url: 'https://www.binance.com', desc: 'SEPA support' }
+                ],
+                'switzerland': [
+                    { name: 'Bitcoin Suisse', url: 'https://www.bitcoinsuisse.com', desc: 'FINMA-regulated' },
+                    { name: 'SDX', url: 'https://www.six-group.com/en/products-services/financial-market-infrastructure/digital-exchange.html', desc: 'Institutional-grade' }
+                ],
+                'thailand': [
+                    { name: 'Bitkub', url: 'https://www.bitkub.com', desc: 'SEC-approved, leading exchange' },
+                    { name: 'Satang Pro', url: 'https://www.satangcorp.com', desc: 'SEC-registered' }
+                ],
+                'uganda': [
+                       { name: 'Binance', url: 'https://www.binance.com', desc: 'P2P and spot trading available' },
+                       { name: 'Paxful', url: 'https://www.paxful.com', desc: 'P2P platform with local support' }
+                   ],
+                   'united-arab-emirates': [
+                       { name: 'Rain', url: 'https://www.rain.ae', desc: 'UAE-licensed, AED support' },
+                       { name: 'BitOasis', url: 'https://www.bitoasis.net', desc: 'MENA region leader' }
+                   ],
+                   'united-kingdom': [
+                       { name: 'Coinbase', url: 'https://www.coinbase.com', desc: 'FCA-regulated, GBP support' },
+                       { name: 'Bitstamp', url: 'https://www.bitstamp.net', desc: 'UK-friendly exchange' }
+                   ],
+                   'united-states': [
+                       { name: 'Coinbase', url: 'https://www.coinbase.com', desc: 'US-regulated, widely used' },
+                       { name: 'Kraken', url: 'https://www.kraken.com', desc: 'Compliant with US regulations' }
+                   ],
+                   'zimbabwe': [
+                       { name: 'Luno', url: 'https://www.luno.com', desc: 'Supports ZWL via P2P' },
+                       { name: 'Binance', url: 'https://www.binance.com', desc: 'P2P trading available' }
+                   ],
+                   'bhutan': [
+                       { name: 'Binance', url: 'https://www.binance.com', desc: 'Accessible via global P2P' },
+                       { name: 'Kraken', url: 'https://www.kraken.com', desc: 'Limited but available' }
+                   ]
+               };
+
+               countrySelect.addEventListener('change', () => {
+                   const selectedCountry = countrySelect.value;
+                   const platformsSection = document.getElementById('recommended-platforms-section');
+                   const noPlatformsMessage = document.getElementById('no-platforms-message');
+                   const selectedCountryDisplay = document.getElementById('selected-country-display');
+                   const platformList = document.getElementById('platform-list');
+                   const globalPlatformList = document.getElementById('global-platform-list');
+                   const kycUpload = document.getElementById('kyc-upload');
+                   const kycSubmit = document.getElementById('kyc-submit');
+
+                   platformsSection.classList.add('hidden');
+                   noPlatformsMessage.classList.add('hidden');
+                   platformList.innerHTML = '';
+                   globalPlatformList.innerHTML = '';
+
+                   if (selectedCountry) {
+                       selectedCountryDisplay.textContent = selectedCountry.replace(/-/g, ' ');
+                       if (platforms[selectedCountry]) {
+                           platformsSection.classList.remove('hidden');
+                           platforms[selectedCountry].forEach(platform => {
+                               const div = document.createElement('div');
+                               div.className = 'bg-gray-900 bg-opacity-50 rounded-lg p-4 hover:bg-gray-800 transition';
+                               div.innerHTML = `<a href="${platform.url}" target="_blank" class="font-medium">${platform.name}</a><p class="text-sm text-gray-400">${platform.desc}</p>`;
+                               platformList.appendChild(div);
+                           });
+                       } else {
+                           noPlatformsMessage.classList.remove('hidden');
+                           const globalPlatforms = [
+                               { name: 'Coinbase', url: 'https://www.coinbase.com', desc: 'Global exchange, fiat support' },
+                               { name: 'Binance', url: 'https://www.binance.com', desc: 'Worldwide P2P and spot trading' },
+                               { name: 'Kraken', url: 'https://www.kraken.com', desc: 'Secure, multi-currency exchange' }
+                           ];
+                           globalPlatforms.forEach(platform => {
+                               const div = document.createElement('div');
+                               div.className = 'bg-gray-900 bg-opacity-50 rounded-lg p-4 hover:bg-gray-800 transition';
+                               div.innerHTML = `<a href="${platform.url}" target="_blank" class="font-medium">${platform.name}</a><p class="text-sm text-gray-400">${platform.desc}</p>`;
+                               globalPlatformList.appendChild(div);
+                           });
+                       }
+
+                       // KYC Submission Logic
+                       kycSubmit.addEventListener('click', () => {
+                           const fileInput = kycUpload.files[0];
+                           if (fileInput) {
+                               const formData = new FormData();
+                               formData.append('kycDocument', fileInput);
+                               formData.append('country', selectedCountry);
+
+                               fetch('http://localhost:5000/api/kyc/submit', {
+                                   method: 'POST',
+                                   headers: { 'Authorization': `Bearer ${token}` },
+                                   body: formData
+                               })
+                               .then(response => response.json())
+                               .then(data => {
+                                   showNotification(data.message || 'KYC submitted for review');
+                               })
+                               .catch(error => console.error('KYC Upload Error:', error));
+                           } else {
+                               showNotification('Please select a document to upload', 'Error');
+                           }
+                       });
+                   }
+               });
+
+               // FAQ Toggle
+               document.querySelectorAll('.faq-item').forEach(item => {
+                   item.querySelector('.faq-question').addEventListener('click', () => {
+                       const answer = item.querySelector('.faq-answer');
+                       const icon = item.querySelector('.fas');
+                       answer.classList.toggle('hidden');
+                       icon.classList.toggle('rotate-180');
+                   });
+               });
+
+               // Initial UI Update
+               updateUI();
+           });
+       </script>
+   </body>
+   </html>
